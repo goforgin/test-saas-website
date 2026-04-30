@@ -11,5 +11,12 @@ export async function GET(request: Request) {
     await supabase.auth.exchangeCodeForSession(code)
   }
 
+  // Handle OAuth errors
+  const error = searchParams.get('error')
+  if (error) {
+    console.error('OAuth error:', error)
+    return NextResponse.redirect(`${origin}/login?error=oauth_error`)
+  }
+
   return NextResponse.redirect(`${origin}${next}`)
 }

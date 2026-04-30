@@ -39,6 +39,20 @@ export default function SignupPage() {
     setLoading(false)
   }
 
+  async function handleGoogleSignup() {
+    const supabase = createClient()
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    })
+
+    if (error) {
+      setError(error.message)
+    }
+  }
+
   if (success) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background px-4">
@@ -99,6 +113,14 @@ export default function SignupPage() {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col gap-3">
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full"
+              onClick={handleGoogleSignup}
+            >
+              Sign up with Google
+            </Button>
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? 'Creating account…' : 'Create account'}
             </Button>

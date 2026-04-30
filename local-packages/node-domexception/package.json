@@ -1,0 +1,8 @@
+{
+  "name": "node-domexception",
+  "version": "2.0.2",
+  "description": "Native DOMException shim",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "license": "MIT"
+}

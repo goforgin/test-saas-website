@@ -34,6 +34,20 @@ export default function LoginPage() {
     router.refresh()
   }
 
+  async function handleGoogleLogin() {
+    const supabase = createClient()
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    })
+
+    if (error) {
+      setError(error.message)
+    }
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <Card className="w-full max-w-md">
@@ -80,6 +94,14 @@ export default function LoginPage() {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col gap-3">
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full"
+              onClick={handleGoogleLogin}
+            >
+              Sign in with Google
+            </Button>
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? 'Signing in…' : 'Sign in'}
             </Button>
